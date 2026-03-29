@@ -26,7 +26,7 @@ extension TableExpression {
   }
 
   public var queryFragment: QueryFragment {
-    if _isSelecting {
+    if _isSelecting || allColumns.count != Self.uniqueAliases.count {
       return zip(allColumns, Self.uniqueAliases)
         .map { "\($0) AS \(quote: $1)" }
         .joined(separator: ", ")
