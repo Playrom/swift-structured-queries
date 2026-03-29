@@ -321,7 +321,6 @@ extension SnapshotTests {
       }
     }
 
-    // TODO: This is not the behavior we want. We should support column aliasing for duplicates.
     @Test func duplicateSelectionColumnNames() {
       assertQuery(
         Reminder.select {
@@ -350,7 +349,6 @@ extension SnapshotTests {
       }
     }
 
-    // TODO: This is not the behavior we want. We should support column aliasing for duplicates.
     @Test func duplicateColumnNamesWithinSelectionWithColumnGroup() {
       assertQuery(
         RemindersList.select {
@@ -358,7 +356,7 @@ extension SnapshotTests {
         }
       ) {
         """
-        SELECT "remindersLists"."id" AS "id", "remindersLists"."id" AS "id", "remindersLists"."color" AS "color", "remindersLists"."title" AS "title", "remindersLists"."position" AS "position"
+        SELECT "remindersLists"."id" AS "id_1", "remindersLists"."id" AS "id_2", "remindersLists"."color" AS "color", "remindersLists"."title" AS "title", "remindersLists"."position" AS "position"
         FROM "remindersLists"
         """
       } results: {
@@ -398,7 +396,6 @@ extension SnapshotTests {
       }
     }
 
-    // TODO: This is not the behavior we want. We should support column aliasing for duplicates.
     @Test func duplicateColumnNamesWithinSelectionWithColumnGroupAlias() {
       assertQuery(
         RemindersList.as(RL.self).select {
@@ -406,7 +403,7 @@ extension SnapshotTests {
         }
       ) {
         """
-        SELECT "rLs"."id" AS "id", "rLs"."id" AS "id", "rLs"."color" AS "color", "rLs"."title" AS "title", "rLs"."position" AS "position"
+        SELECT "rLs"."id" AS "id_1", "rLs"."id" AS "id_2", "rLs"."color" AS "color", "rLs"."title" AS "title", "rLs"."position" AS "position"
         FROM "remindersLists" AS "rLs"
         """
       } results: {

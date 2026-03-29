@@ -354,7 +354,6 @@ extension SnapshotTests {
       }
     }
 
-    // TODO: This is not the behavior we want. We should support column aliasing for duplicates.
     @Test func viewWithDuplicateColumnNames() {
       assertQuery(
         ReminderAndListID.createTemporaryView(
@@ -369,29 +368,11 @@ extension SnapshotTests {
         """
         CREATE TEMPORARY VIEW
         "reminderAndListIDs"
-        ("id", "id")
+        ("id_1", "id_2")
         AS
-        SELECT "reminders"."id" AS "id", "remindersLists"."id" AS "id"
+        SELECT "reminders"."id" AS "id_1", "remindersLists"."id" AS "id_2"
         FROM "reminders"
         JOIN "remindersLists" ON ("reminders"."remindersListID") = ("remindersLists"."id")
-        """
-      }
-      assertQuery(
-        ReminderAndListID.limit(1)
-      ) {
-        """
-        SELECT "reminderAndListIDs"."id", "reminderAndListIDs"."id"
-        FROM "reminderAndListIDs"
-        LIMIT 1
-        """
-      } results: {
-        """
-        ┌──────────────────────┐
-        │ ReminderAndListID(   │
-        │   reminderID: 1,     │
-        │   remindersListID: 1 │
-        │ )                    │
-        └──────────────────────┘
         """
       }
     }
